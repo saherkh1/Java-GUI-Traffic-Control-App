@@ -44,7 +44,24 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 	private ArrayList<Vehicle> vehicles=null;
 	private int drivingTime;
 	private ArrayList<Timer> allTimedElements=null;
-	
+	JLabel picLabel1 = new JLabel();
+	Canvas mapCanvas=new DrawingMap();
+
+	public Canvas getMapCanvas() {
+		return mapCanvas;
+	}
+
+	public void setMapCanvas(Canvas mapCanvas) {
+		this.mapCanvas = mapCanvas;
+	}
+
+	public JLabel getPicLabel() {
+		return picLabel1;
+	}
+
+	public void setPicLabel(JLabel picLabel) {
+		this.picLabel1 = picLabel;
+	}
 
 	/**
 	 * Create the application.
@@ -60,11 +77,11 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 	 public void initRoadMap(){
 	        this.removeAll();
 	        setPreferredSize(new Dimension(mapWidth,mapLength));
-	        JLabel picLabel1 = new JLabel();
+	        //JLabel picLabel1 = new JLabel();
 	        picLabel1.setLocation(0, 0);
 	        picLabel1.setSize(mapWidth,mapLength+80);
 	        add(picLabel1);
-	        Canvas mapCanvas=new DrawingMap();
+	        //Canvas mapCanvas=new DrawingMap();
 	        picLabel1.setVisible(true);
 	        picLabel1.add(mapCanvas);
 	        mapCanvas.setSize(mapWidth, mapLength);	 
@@ -73,9 +90,19 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 	        }
 	        if (newDrive!=null)
 	        	((DrawingMap)mapCanvas).setV(newDrive.getVehicles());
+	       // picLabel1.setBackground(new Color(255,255,0));
+	       // this.picLabel=picLabel1;
 	        
     
 	}
+	 public void abcd() {
+			setBackground(Color.blue);
+			
+		}
+	 public void abcdd() {
+			picLabel1.setBackground(Color.blue);
+			
+		}
 	 
 	 
 	public RoadFrame getRoadFrame() {
@@ -208,4 +235,4 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 	public void setNewDrive(Driving newDrive) {
 		this.newDrive = newDrive;
 	}
-}
+	}

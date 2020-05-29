@@ -25,19 +25,20 @@ public class DrawingMap extends Canvas {
 		int[] xpoints;// = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
 	    int[] ypoints;
 	    double xm , xn , ym, yn, xm1 , xn1 , ym1, yn1 ;
+	    Color vColor= Color.BLACK;//(0,0,0);
 		
 		public void setMap(Map map){
 			this.map=map;
+		
 		}
-		public void setValues(int x1, int y1, int x2, int y2, int d, int h){
-			this.vFlag = true;
-			this.x1 = x1;
-			this.y1 = y1;
-			this.x2 = x2;
-			this.y2 = y2;
-			this.d = d;
-			this.h = h;
+		public void setColor(Color c) {
+			this.vColor=c;
 		}
+		public void changeBG(Color bg) {
+			setBackground(bg);
+			
+		}
+		
 		public void setV(ArrayList<Vehicle> v){
 			vehicles=v;
 			
@@ -46,7 +47,7 @@ public class DrawingMap extends Canvas {
 		}
 		@Override
 		public void paint(Graphics g) { 
-			if(map!=null) {
+			if(map!=null ) {
 				
 			 System.out.println("addJunctions");
 			 System.out.println("");
@@ -84,7 +85,9 @@ public class DrawingMap extends Canvas {
 							g.setColor(Color.BLACK);
 					 }
 					 g.fillOval((int) j.getX()-5,(int) j.getY()-5,10,10);
+					 
 				 }
+				 
 			}
 			if(vFlag) {
 				delta=10;d=10;h=4;
@@ -96,6 +99,7 @@ public class DrawingMap extends Canvas {
 				calcArrow(x1,y1,x2,y2);
 			    int[] xpoints = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
 			    int[] ypoints = {(int) ym1, (int) yn1, (int) yn, (int) ym};
+			    g.setColor(vColor);
 			    g.fillPolygon(xpoints, ypoints, 4);
 			    g.setColor(Color.BLACK);
 			    g.fillOval((int) xm1-2,(int) ym1-2,4,4);

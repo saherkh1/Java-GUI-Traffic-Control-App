@@ -5,10 +5,14 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class MenuBar extends JPanel implements ActionListener {
 
@@ -52,8 +56,10 @@ public class MenuBar extends JPanel implements ActionListener {
         vehiclesColors.add(i7);
         
         
+        
         Help=new JMenu("Help");  
         i8=new JMenuItem("Help");  
+        i8.addActionListener(this);
         Help.add(i8);
         
         menuBar.add(file);
@@ -77,24 +83,30 @@ public class MenuBar extends JPanel implements ActionListener {
 			System.exit(0);
 			break;
 		case "Blue":
-			roadFrame.getRoadMapPanel().setBackground(Color.BLUE);
-			//setBackground("Blue");
+			((DrawingMap) (roadFrame.getRoadMapPanel().getMapCanvas())).setBackground(Color.BLUE);
 			break;
 		case "None":
+			((DrawingMap) (roadFrame.getRoadMapPanel().getMapCanvas())).changeBG(null);
 			roadFrame.getRoadMapPanel().setBackground(null);
 			break;
 		case "Blue ":
-			//setVehiclesColor("Blue");
+			((DrawingMap) (roadFrame.getRoadMapPanel().getMapCanvas())).setColor(Color.blue);
 			break;
 		case "Magenta":
-			//setVehiclesColor("Magenta");
+			((DrawingMap) (roadFrame.getRoadMapPanel().getMapCanvas())).setColor(Color.magenta);
 			break;
 		case "Orange":
-			//setVehiclesColor("Orange");
+			((DrawingMap) (roadFrame.getRoadMapPanel().getMapCanvas())).setColor(Color.orange);
 			break;
 		case "Random":
-			//setBackground("Random");
+			Random rand = new Random();
+			((DrawingMap) (roadFrame.getRoadMapPanel().getMapCanvas())).setColor(new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
 			break;
+		case "Help":
+	        JOptionPane.showMessageDialog(roadFrame,
+	        		"Home Work 3"+"\n\r"+"GUI @ Threads");
+
+	        break;
 		
 	}
 	
