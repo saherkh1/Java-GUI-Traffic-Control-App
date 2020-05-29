@@ -33,6 +33,19 @@ public class SequentialTrafficLights extends TrafficLights {
 	public int getIncrement() {
 		return increment;
 	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	            try {
+	                Thread.sleep(30);
+	            } catch (InterruptedException ex) {
+	                ex.printStackTrace();
+	            }
+	            try {
+	            	changeIndex();
+	            }catch(Exception e){}
+	}
 	
 	
 }

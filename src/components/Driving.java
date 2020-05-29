@@ -4,6 +4,8 @@
 package components;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import GUI.RoadFrame;
@@ -15,7 +17,7 @@ import utilities.Utilities;
  * @author Sophie Krimberg
  *
  */
-public class Driving implements Utilities, Timer{
+public class Driving implements Utilities, Timer,Runnable{
 	private Map map;
 	private ArrayList<Vehicle> vehicles;
 	private int drivingTime;
@@ -109,6 +111,12 @@ public class Driving implements Utilities, Timer{
 	public ArrayList<Timer> getAllTimedElements() {
 		return allTimedElements;
 	}
+	
+	
+    public boolean hasActiveCompetitors(){
+        return allTimedElements.size() > 0;
+    }
+	
 
 	/**
 	 * @param allTimedElements the allTimedElements to set
@@ -125,11 +133,19 @@ public class Driving implements Utilities, Timer{
 		System.out.println("\n================= START DRIVING=================");
 
 		drivingTime=0;
+	
 		for (int i=0; i<turns;i++) {
 			rf.updateFrame();
 			TimeUnit.SECONDS.sleep(3);
 			incrementDrivingTime();
 		}
+		
+		ExecutorService e = Executors.newFixedThreadPool(map.getJunctions().size());
+		for (Vehicle c : vehicles) {
+			e.execute(c);
+		}
+		e.shutdown();
+		
 	}
 
 	@Override
@@ -148,5 +164,17 @@ public class Driving implements Utilities, Timer{
 		return "Driving [map=" + map + ", vehicles=" + vehicles + ", drivingTime=" + drivingTime + ", allTimedElements="
 				+ allTimedElements + "]";
 	}
+	
 
+	@Override
+	public void run() {
+		incrementDrivingTime();
+        try { 
+               Thread.sleep(30);
+        } catch (InterruptedException ex) {
+               ex.printStackTrace();
+        }
 }
+	}
+	
+

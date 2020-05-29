@@ -15,7 +15,7 @@ import utilities.VehicleType;
  * @author krsof
  *
  */
-public class Vehicle implements Utilities, Timer {
+public class Vehicle implements Utilities, Timer,Runnable {
 	private int id;
 	private VehicleType vehicleType;
 	private Route currentRoute;
@@ -263,6 +263,19 @@ public class Vehicle implements Utilities, Timer {
 	 */
 	public static void setObjectsCount(int objectsCount) {
 		Vehicle.objectsCount = objectsCount;
+	}
+
+
+
+
+	@Override
+	public void run() {
+			move();
+            try { 
+                   Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                   ex.printStackTrace();
+            }
 	}
 	
 	

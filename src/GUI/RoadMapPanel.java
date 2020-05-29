@@ -31,7 +31,7 @@ import components.Map;
 import components.Road;
 import components.Vehicle;
 
-public class RoadMapPanel extends JPanel /*implements Runnable */{
+public class RoadMapPanel extends JPanel implements Runnable {
 	private int mapLength = Point.maxY;
     private int mapWidth = Point.maxX;
     private boolean observationFinished = false; 
@@ -197,6 +197,18 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
          parent.setVisible(true);
 	}
 
+    public void startRace(){
+       // competitionStarted = true;
+             
+        try {                    
+            new Thread(this).start();
+            newDrive.drive(5);
+        } catch (InterruptedException ex) {
+        	ex.printStackTrace();
+        }
+    }
+    
+	
 	public boolean isObservationFinished() {
 		return observationFinished;
 	}
@@ -234,5 +246,19 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 
 	public void setNewDrive(Driving newDrive) {
 		this.newDrive = newDrive;
+	}
+	
+	@Override
+	public void run() {
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            try {
+            	roadFrame.updateFrame();
+            }catch(Exception e){}
+		
+    	roadFrame.updateFrame();	
 	}
 	}

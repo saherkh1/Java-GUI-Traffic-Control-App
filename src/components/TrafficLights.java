@@ -12,7 +12,7 @@ import utilities.Utilities;
  * @author Sophie Krimberg
  *
  */
-public abstract class TrafficLights implements Timer, Utilities{
+public abstract class TrafficLights implements Timer, Utilities, Runnable{
 	private int id;
 	private final int maxDelay=6;
 	private final int minDelay=2;
