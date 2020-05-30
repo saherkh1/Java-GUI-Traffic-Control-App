@@ -4,6 +4,7 @@
 package components;
 
 
+import utilities.Point;
 import utilities.Timer;
 import utilities.Utilities;
 import utilities.VehicleType;
@@ -15,7 +16,7 @@ import utilities.VehicleType;
  * @author krsof
  *
  */
-public class Vehicle implements Utilities, Timer {
+public class Vehicle implements Utilities, Timer,Runnable {
 	private int id;
 	private VehicleType vehicleType;
 	private Route currentRoute;
@@ -25,6 +26,7 @@ public class Vehicle implements Utilities, Timer {
 	private int timeOnCurrentPart;
 	private Road lastRoad;
 	private String status;
+	private Point currentLocation;
 	
 	/**Random Constructor
 	 * @param currentLocation
@@ -60,40 +62,24 @@ public class Vehicle implements Utilities, Timer {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
-
-
 	/**
 	 * @return the vehicleType
 	 */
 	public VehicleType getVehicleType() {
 		return vehicleType;
 	}
-
-
-
-
 	/**
 	 * @param vehicleType the vehicleType to set
 	 */
 	public void setVehicleType(VehicleType vehicleType) {
 		this.vehicleType = vehicleType;
 	}
-
-
-
-
 	/**
 	 * @return the currentRoute
 	 */
 	public Route getCurrentRoute() {
 		return currentRoute;
 	}
-
-
-
-
 	/**
 	 * @param currentRoute the currentRoute to set
 	 */
@@ -225,12 +211,15 @@ public class Vehicle implements Utilities, Timer {
 	 * 
 	 */
 	public void move() {
+		
 		if (currentRoutePart.canLeave(this)) {
 			currentRoutePart.checkOut(this);
 			currentRoute.findNextPart(this).checkIn(this);
+			
 		}
 		else {
 			currentRoutePart.stayOnCurrentPart(this);
+			
 		}
 	}
 	
@@ -264,6 +253,37 @@ public class Vehicle implements Utilities, Timer {
 	public static void setObjectsCount(int objectsCount) {
 		Vehicle.objectsCount = objectsCount;
 	}
+
+
+
+
+	@Override
+	public void run() {
+		while (true) {
+			move();
+            try { 
+                   Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                   ex.printStackTrace();
+            }
+		
+	}
 	
+	
+}
+
+
+
+
+	public Point getCurrentLocation() {
+		return currentLocation;
+	}
+
+
+
+
+	public void setCurrentLocation(double x,double y) {
+		this.currentLocation = currentLocation;
+	}
 	
 }

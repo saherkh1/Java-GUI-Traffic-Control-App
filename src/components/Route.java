@@ -5,6 +5,8 @@ package components;
 
 import java.util.ArrayList;
 
+import utilities.Point;
+
 
 
 /**Represents a route for a vehicle
@@ -150,6 +152,14 @@ public class Route implements RouteParts {
 
 	@Override
 	public void stayOnCurrentPart(Vehicle vehicle) {
+		/*int speed=vehicle.getVehicleType().getAverageSpeed();
+		double x =vehicle.getCurrentLocation().getX()+speed;
+		double y =vehicle.getCurrentLocation().getY();
+		double x1=vehicle.getLastRoad().getEndJunction().getX();
+		double y1=vehicle.getLastRoad().getEndJunction().getY();
+		double finalX=x+(speed/10);
+		double finalY=((y1-y)/(x1-x))*(finalX-x1)+y1;
+		vehicle.setCurrentLocation(finalX,finalY);*/
 		System.out.println("- is still moving on the "+ this +".");
 	}
 

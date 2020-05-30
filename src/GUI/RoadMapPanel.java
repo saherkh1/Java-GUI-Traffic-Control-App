@@ -31,7 +31,7 @@ import components.Map;
 import components.Road;
 import components.Vehicle;
 
-public class RoadMapPanel extends JPanel /*implements Runnable */{
+public class RoadMapPanel extends JPanel implements Runnable{
 	private int mapLength = Point.maxY;
     private int mapWidth = Point.maxX;
     private boolean observationFinished = false; 
@@ -46,6 +46,15 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 	private ArrayList<Timer> allTimedElements=null;
 	JLabel picLabel1 = new JLabel();
 	Canvas mapCanvas=new DrawingMap();
+	boolean startObs=false;
+
+	public boolean isStartObs() {
+		return startObs;
+	}
+
+	public void setStartObs(boolean startObs) {
+		this.startObs = startObs;
+	}
 
 	public Canvas getMapCanvas() {
 		return mapCanvas;
@@ -235,4 +244,34 @@ public class RoadMapPanel extends JPanel /*implements Runnable */{
 	public void setNewDrive(Driving newDrive) {
 		this.newDrive = newDrive;
 	}
+
+	public void startObs() {
+		  //competitionStarted = true;
+		             
+		        try {                    
+		            new Thread(this).start();
+		            newDrive.startCompetition();
+		        } catch (InterruptedException ex) {
+		        	ex.printStackTrace();
+		        }
+		   
+		    
+		
+	}
+
+	 @Override
+	    public void run() {
+	       while (startObs/*winterCompetition.hasActiveCompetitors()*/){
+	            try {
+	                Thread.sleep(30);
+	            } catch (InterruptedException ex) {
+	                ex.printStackTrace();
+	            }
+	            try {
+	            	roadFrame.updateFrame();
+	            }catch(Exception e){}
+	        }
+	       roadFrame.updateFrame();
+	        //competitionFinished = true;
+	    }
 	}

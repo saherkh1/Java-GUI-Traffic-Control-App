@@ -5,6 +5,7 @@ package components;
 
 import java.util.ArrayList;
 
+import utilities.Point;
 import utilities.VehicleType;
 
 
@@ -17,7 +18,6 @@ import utilities.VehicleType;
  *
  */
 public class Junction extends utilities.Point implements RouteParts {
-	
 	private String junctionName;
 	private ArrayList <Road> enteringRoads;
 	private ArrayList <Road> exitingRoads;
@@ -175,6 +175,8 @@ public class Junction extends utilities.Point implements RouteParts {
 		vehicle.setTimeOnCurrentPart(0);
 		System.out.println("- has arrived to "+ this);
 		vehicle.setCurrentRoutePart(this);
+		Point P=((Point) this);
+		//vehicle.setCurrentLocation(P);
 		vehicle.getCurrentRoute().findNextPart(vehicle);//change route if current one ended
 		
 	}

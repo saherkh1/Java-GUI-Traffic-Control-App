@@ -32,29 +32,35 @@ public class RoadFrame extends JFrame {
 	 */
 	public RoadFrame() {
 		super("Competition");
-		updateFrame();
+		initFrame();//updateFrame();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	private void initFrame() {
+		//add the menu bar
+				this.setJMenuBar(mb.getMenuBar());
+				this.setSize(400,400);  
+				this.setLayout(null);  
+				this.setVisible(true);
+				
+				
+		        this.setContentPane(getMyContentPane());
+		        this.pack();
+		        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		        int x = (int) ((dimension.getWidth() - getWidth()) / 2);
+		        int y = (int) ((dimension.getHeight() - getHeight()) / 2);
+		        this.setLocation(x, y);
+		        this.setVisible(true); 
+		
+	}
+
 	/*
 	 * 1) set menu bar
 	 * 2) getMyContentPane()
 	 */
 	public void updateFrame(){
-		//add the menu bar
-		this.setJMenuBar(mb.getMenuBar());
-		this.setSize(400,400);  
-		this.setLayout(null);  
-		this.setVisible(true);
-		
-		
-        this.setContentPane(getMyContentPane());
-        this.pack();
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - getHeight()) / 2);
-        this.setLocation(x, y);
-        this.setVisible(true); 
+		 this.setContentPane(getMyContentPane());
+	     this.pack();
     }
 	/*
 	 * 

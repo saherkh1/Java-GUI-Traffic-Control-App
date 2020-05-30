@@ -68,11 +68,9 @@ public class ControlsPanel extends JPanel implements ActionListener {
 			
 			break;
 		case "Start": 
+			roadMapPanel.setStartObs(true);
+			roadMapPanel.startObs();
 			
-			/*
-			if(this.roadMapPanel.getCurrentMap()!=null)
-			this.roadMapPanel.setObservationFinished(false);
-			*/
 			break;
 		case "Stop": 
 			try {

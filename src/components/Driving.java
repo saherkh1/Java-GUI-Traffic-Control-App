@@ -4,6 +4,8 @@
 package components;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import GUI.RoadFrame;
@@ -147,6 +149,14 @@ public class Driving implements Utilities, Timer{
 	public String toString() {
 		return "Driving [map=" + map + ", vehicles=" + vehicles + ", drivingTime=" + drivingTime + ", allTimedElements="
 				+ allTimedElements + "]";
+	}
+	public void startCompetition() throws InterruptedException {
+		ExecutorService e = Executors.newFixedThreadPool(vehicles.size());
+		for (Vehicle V : vehicles) {
+			e.execute(V);
+		}
+		e.shutdown();
+		//e.awaitTermination(10, TimeUnit.MINUTES);
 	}
 
 }

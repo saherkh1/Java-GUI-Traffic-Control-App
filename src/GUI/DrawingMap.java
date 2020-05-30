@@ -22,12 +22,15 @@ public class DrawingMap extends Canvas {
 		Map map=null;
 		int x1, y1, x2, y2, d=10, h=4,delta=10;
 		private boolean vFlag;
+		private boolean rFlag=true;
+		private boolean jFlag=true;
 		int[] xpoints;// = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
 	    int[] ypoints;
 	    double xm , xn , ym, yn, xm1 , xn1 , ym1, yn1 ;
 	    Color vColor= Color.BLACK;//(0,0,0);
 		
 		public void setMap(Map map){
+			rFlag=true;
 			this.map=map;
 		
 		}
@@ -47,55 +50,46 @@ public class DrawingMap extends Canvas {
 		}
 		@Override
 		public void paint(Graphics g) { 
-			if(map!=null ) {
-				
-			 System.out.println("addJunctions");
-			 System.out.println("");
-			 System.out.println("");
-			 
-			 ArrayList<Road> roads= map.getRoads();
-			 for (Road r : roads) {
-				 if(r.getEnabled()){
-					 g.setColor(Color.BLACK);
-					 g.drawLine(
-							 (int)r.getStartJunction().getX(),
-							 (int)r.getStartJunction().getY(),
-							 (int)r.getEndJunction().getX(),
-							 (int)r.getEndJunction().getY());	
-					 }
-				 }
-				 ArrayList<Junction> juncs=map.getJunctions();
-				 for (Junction j : juncs) {
-					 if (j instanceof LightedJunction) 
-						 if(((LightedJunction) j).getLights().getTrafficLightsOn()) 
-							 g.setColor(Color.RED);
-						 else 
-							 g.setColor(Color.GREEN);
-					 else {
-						 	x1=(int) j.getEnteringRoads().get(0).getEndJunction().getX();
-							y1=(int) j.getEnteringRoads().get(0).getEndJunction().getY();
-							x2=(int) j.getEnteringRoads().get(0).getStartJunction().getX();
-							y2=(int) j.getEnteringRoads().get(0).getStartJunction().getY();
-							delta=3;d=20;h=3;
-							calcArrow(x1,y1,x2,y2);
-							int[] xpoints = {(int) xm1, (int) xn1,  (int) (xn+xm)/2, (int) xm1};
-						    int[] ypoints = {(int) ym1, (int) yn1, (int) (yn+ym)/2, (int) ym1};
-						    g.setColor(Color.green);
-							g.fillPolygon(xpoints, ypoints, 4);
-							g.setColor(Color.BLACK);
-					 }
-					 g.fillOval((int) j.getX()-5,(int) j.getY()-5,10,10);
-					 
-				 }
-				 
+			if(map!=null ) {			 
+				if(rFlag) {
+				drawRoads(g);
+				rFlag=false;
+				}
+			 	drawJunctions(g);
 			}
-			if(vFlag) {
+			if(vFlag) 
+				drawVehicles(g);
+			}
+			
+			
+			private void drawRoads(Graphics g) {
+				 ArrayList<Road> roads= map.getRoads();
+				 for (Road r : roads) {
+					 if(r.getEnabled()){
+						 g.setColor(Color.BLACK);
+						 g.drawLine(
+								 (int)r.getStartJunction().getX(),
+								 (int)r.getStartJunction().getY(),
+								 (int)r.getEndJunction().getX(),
+								 (int)r.getEndJunction().getY());	
+						 }
+					 }
+			
+		}
+			private void drawVehicles(Graphics g) {
 				delta=10;d=10;h=4;
 				for (Vehicle v : vehicles) {
 				x1=(int) v.getLastRoad().getStartJunction().getX();
 				y1=(int) v.getLastRoad().getStartJunction().getY();
 				x2=(int) v.getLastRoad().getEndJunction().getX();
 				y2=(int) v.getLastRoad().getEndJunction().getY();
+				
+				int timeOnCurrentPart=v.getTimeOnCurrentPart();
+				int speed=v.getVehicleType().getAverageSpeed();
+				int dx=x2-x1,dy=y2-y1,x=x1;
+				x1=x1+((speed/10)*timeOnCurrentPart);
+				y1=y1+((dy/dx)*(x1-x));
+				
 				calcArrow(x1,y1,x2,y2);
 			    int[] xpoints = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
 			    int[] ypoints = {(int) ym1, (int) yn1, (int) yn, (int) ym};
@@ -109,10 +103,34 @@ public class DrawingMap extends Canvas {
 
 
 				}
-			}
-			}
 			
+		}
+			private void drawJunctions(Graphics g) {
+				 ArrayList<Junction> juncs=map.getJunctions();
+				 for (Junction j : juncs) {
+					 if (j instanceof LightedJunction) 
+						 if(((LightedJunction) j).getLights().getTrafficLightsOn()) {
+							x1=(int) j.getEnteringRoads().get(0).getEndJunction().getX();
+							y1=(int) j.getEnteringRoads().get(0).getEndJunction().getY();
+							x2=(int) j.getEnteringRoads().get(0).getStartJunction().getX();
+							y2=(int) j.getEnteringRoads().get(0).getStartJunction().getY();
+							delta=3;d=20;h=3;
+							calcArrow(x1,y1,x2,y2);
+							int[] xpoints = {(int) xm1, (int) xn1,  (int) (xn+xm)/2, (int) xm1};
+							int[] ypoints = {(int) ym1, (int) yn1, (int) (yn+ym)/2, (int) ym1};
+							g.setColor(Color.green);
+							g.fillPolygon(xpoints, ypoints, 4);
+							g.setColor(Color.RED);
+						 }
+					 
+						 else 
+							 g.setColor(Color.GREEN);
+					 else 
+							g.setColor(Color.BLACK);
+					 g.fillOval((int) j.getX()-5,(int) j.getY()-5,10,10);
+				 }
 			
+		}
 			private void calcArrow(int x1,int y1,int x2,int y2) {
 				int dx = x2 - x1, dy = y2 - y1;
 			    double D = Math.sqrt(dx*dx + dy*dy);
