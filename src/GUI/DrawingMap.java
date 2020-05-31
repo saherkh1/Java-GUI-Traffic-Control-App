@@ -31,6 +31,7 @@ public class DrawingMap extends JPanel /*extends Canvas */{
 	    double xm , xn , ym, yn, xm1 , xn1 , ym1, yn1 ;
 	    Color vColor= Color.BLACK;//(0,0,0);
 		Color bg;
+		private static int turn=0;
 		
 		public void setMap(Map map){
 			rFlag=true;
@@ -58,6 +59,7 @@ public class DrawingMap extends JPanel /*extends Canvas */{
 			if(map!=null ) {			 
 				if(rFlag) {
 				drawRoads(g);
+				turn++;
 				}
 			 	drawJunctions(g);
 			}
@@ -84,10 +86,26 @@ public class DrawingMap extends JPanel /*extends Canvas */{
 			private void drawVehicles(Graphics g) {
 				delta=10;d=10;h=4;
 				for (Vehicle v : vehicles) {
-				x1=(int) v.getCurrentX();
-				y1=(int) v.getCurrentY();
+				x1=(int) v.getLastRoad().getStartJunction().getX();
+				y1=(int) v.getLastRoad().getStartJunction().getY();
 				x2=(int) v.getLastRoad().getEndJunction().getX();
 				y2=(int) v.getLastRoad().getEndJunction().getY();
+				
+				int maxspeed= v.getLastRoad().getMaxSpeed();
+				int avgspeed=(int)v.getVehicleType().getAverageSpeed();
+				if(maxspeed>avgspeed) maxspeed=avgspeed;
+				int dx = x2 - x1, dy = y2 - y1;
+				double D = Math.sqrt(dx*dx + dy*dy);
+				double sin = dy / D, cos = dx / D;
+				int x1=(int) (this.x1+ ((maxspeed/10)*cos*turn)); 
+				int y1= (int) (this.y1+ ((maxspeed/10)*sin*turn));
+				v.setCurrentX(x1);
+				v.setCurrentY(y1);
+				if((Math.abs(y1-y2)<7)||(v.active==false )) {	
+					v.active=false;
+					calcArrow(this.x2,this.y2,this.x1,this.y1);
+				}
+				else
 				calcArrow(x1,y1,x2,y2);
 			    int[] xpoints = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
 			    int[] ypoints = {(int) ym1, (int) yn1, (int) yn, (int) ym};

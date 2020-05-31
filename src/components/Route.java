@@ -132,8 +132,10 @@ public class Route implements RouteParts {
 	@Override
 	public void checkIn(Vehicle vehicle) {
 		vehicle.setTimeFromRouteStart(0);
+		
 		System.out.println("- is starting a new "+this+"." );
 		this.getFirstPart().checkIn(vehicle);
+		
 		
 		
 		

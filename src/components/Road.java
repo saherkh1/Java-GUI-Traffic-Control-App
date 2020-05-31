@@ -214,6 +214,8 @@ public class Road implements RouteParts{
 		vehicle.setCurrentRoutePart(this);
 		vehicle.setTimeOnCurrentPart(0);
 		vehicle.setLastRoad(this);
+		vehicle.setVx(startJunction.getX());
+		vehicle.setVy(startJunction.getY());
 		System.out.println("- "+vehicle+"is starting to move on "+ this + ", time to finish: " + calcEstimatedTime(vehicle)+ ".");
 	}
 	@Override

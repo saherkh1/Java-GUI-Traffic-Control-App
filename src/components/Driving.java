@@ -147,6 +147,7 @@ public class Driving implements Utilities, Timer{
 	public void startCompetition() throws InterruptedException {
 		ExecutorService e = Executors.newFixedThreadPool(vehicles.size());
 		for (Vehicle V : vehicles) {
+			if(V.active)
 			e.execute(V);
 		}
 		e.shutdown();

@@ -7,38 +7,37 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import components.Driving;
+import components.Junction;
+import components.Vehicle;
+
 
 
 public class InfoTable extends JFrame{
-    /*
-    public InfoTable(Competition competition, int racersNumber){
+	  
+    public InfoTable(Driving d){
         super("Competitors information");
-        String[] columnNames = {"Name",
-                             "Speed",
-                             "Max speed",
+        String[] columnNames = {"Vehicle",
+                             "Type",
                              "Location",
-                             "Finished"};
+                             "Time on loc",
+                             "speed"};
         
-        String[][] data = new String[racersNumber][5];
+        String[][] data = new String[d.getVehicles().size()][5];
         int i=0;
      
-        for (Competitor c: competition.getFinishedCompetitors()){
-            data[i][0] = ((Sportsman) c).getName();
-            data[i][1] = ""+c.getSpeed();
-            data[i][2] = ""+c.getMaxSpeed();
-            data[i][3] = ""+c.getLocation().getX();
-            data[i][4] = "Yes";
+        for (Vehicle v: d.getVehicles()) {
+            data[i][0] = v.getId()+"";
+            data[i][1] = ""+v.getVehicleType();
+            if(v.getCurrentRoutePart() instanceof Junction)
+            	data[i][2] = "Junction "+v.getCurrentRoutePart();
+            else data[i][2] = "Road "+v.getCurrentRoutePart();
+            data[i][3] = ""+v.getTimeOnCurrentPart();
+            data[i][4] = ""+v.getVehicleType().getAverageSpeed();
             i++;
         }
                     
-        for (Competitor c: competition.getActiveCompetitors()){
-            data[i][0] = ((Sportsman) c).getName();
-            data[i][1] = ""+c.getSpeed();
-            data[i][2] = ""+c.getMaxSpeed();
-            data[i][3] = ""+c.getLocation().getX();
-            data[i][4] = "No";
-            i++;
-        }
+
                     
         JTable table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
@@ -51,6 +50,5 @@ public class InfoTable extends JFrame{
         setContentPane(tabPan);
         pack();
         setVisible(true); 
-    }*/
-    
+    }
 }

@@ -76,9 +76,14 @@ public class ControlsPanel extends JPanel implements ActionListener {
 			RoadMapPanel.setStartObs(false);
 			break;
 		case "Resume": 
-			this.roadMapPanel.notifyAll();
+			RoadMapPanel.setStartObs(true);
+
+			roadMapPanel.startObs();
+
+			//this.roadMapPanel.notifyAll();
 			break;
 		case "info": 
+			InfoTable sh=new InfoTable(roadMapPanel.getNewDrive());
 			break;
 		
 			}

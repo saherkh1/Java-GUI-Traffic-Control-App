@@ -23,7 +23,7 @@ public abstract class TrafficLights implements Timer, Utilities,Runnable{
 	private int workingTime;
 	private ArrayList<Road> roads; 
 	private static int objectsCount=1;
-	
+	public volatile boolean active=true;
 	/**Constructor
 	 * @param roads
 	 */
