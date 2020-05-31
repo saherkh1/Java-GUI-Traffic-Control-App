@@ -30,6 +30,19 @@ public class RandomTrafficLights extends TrafficLights {
 	public String toString() {
 		return new String("Random "+super.toString());
 	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	            try {
+	                Thread.sleep(30);
+	            } catch (InterruptedException ex) {
+	                ex.printStackTrace();
+	            }
+	            try {
+	            	changeIndex();
+	            }catch(Exception e){}
+	}
 	
 	
 
