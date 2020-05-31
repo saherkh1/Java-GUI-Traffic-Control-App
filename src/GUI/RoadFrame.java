@@ -59,8 +59,9 @@ public class RoadFrame extends JFrame {
 	 * 2) getMyContentPane()
 	 */
 	public void updateFrame(){
-		 this.setContentPane(getMyContentPane());
-	     this.pack();
+		this.setContentPane(getMyContentPane());
+        this.pack();
+       
     }
 	/*
 	 * 

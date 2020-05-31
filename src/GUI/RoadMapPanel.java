@@ -32,37 +32,31 @@ import components.Road;
 import components.Vehicle;
 
 public class RoadMapPanel extends JPanel implements Runnable{
-	private int mapLength = Point.maxY;
-    private int mapWidth = Point.maxX;
+	public int mapLength = Point.maxY;
+    public int mapWidth = Point.maxX;
     private boolean observationFinished = false; 
 	
     int numberOfJunctions=0;
     int numberOfVehicles=0;
-    Driving newDrive=null;
+    public Driving newDrive=null;
     private Map currentMap=null;
 	private RoadFrame roadFrame=null;
 	private ArrayList<Vehicle> vehicles=null;
 	private int drivingTime;
 	private ArrayList<Timer> allTimedElements=null;
 	JLabel picLabel1 = new JLabel();
-	Canvas mapCanvas=new DrawingMap();
-	boolean startObs=false;
+	DrawingMap mapCanvas=new DrawingMap();
+	static boolean startObs=false;
 
-	public boolean isStartObs() {
+	public static boolean isStartObs() {
 		return startObs;
 	}
 
-	public void setStartObs(boolean startObs) {
-		this.startObs = startObs;
+	public static void setStartObs(boolean start) {
+		startObs = start;
 	}
 
-	public Canvas getMapCanvas() {
-		return mapCanvas;
-	}
-
-	public void setMapCanvas(Canvas mapCanvas) {
-		this.mapCanvas = mapCanvas;
-	}
+	
 
 	public JLabel getPicLabel() {
 		return picLabel1;
@@ -245,6 +239,14 @@ public class RoadMapPanel extends JPanel implements Runnable{
 		this.newDrive = newDrive;
 	}
 
+	public DrawingMap getMapCanvas() {
+		return mapCanvas;
+	}
+
+	public void setMapCanvas(DrawingMap mapCanvas) {
+		this.mapCanvas = mapCanvas;
+	}
+
 	public void startObs() {
 		  //competitionStarted = true;
 		             
@@ -268,10 +270,21 @@ public class RoadMapPanel extends JPanel implements Runnable{
 	                ex.printStackTrace();
 	            }
 	            try {
-	            	roadFrame.updateFrame();
+	            	//roadFrame.updateFrame();
+	            	((DrawingMap)mapCanvas).updateDrawing();
 	            }catch(Exception e){}
 	        }
-	       roadFrame.updateFrame();
+	       ((DrawingMap)mapCanvas).updateDrawing();
+	       //roadFrame.updateFrame();
 	        //competitionFinished = true;
 	    }
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	}

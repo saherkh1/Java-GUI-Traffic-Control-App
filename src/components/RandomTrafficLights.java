@@ -4,6 +4,8 @@
 package components;
 import java.util.ArrayList;
 
+import GUI.RoadMapPanel;
+
 /**Represents the traffic lights with random choice of road that receives a green light
  * @author Sophie Krimberg
  *
@@ -30,5 +32,6 @@ public class RandomTrafficLights extends TrafficLights {
 	}
 	
 	
+
 
 }

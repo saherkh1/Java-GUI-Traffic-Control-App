@@ -5,6 +5,7 @@ package components;
 
 import java.util.ArrayList;
 
+import GUI.RoadMapPanel;
 import utilities.Timer;
 import utilities.Utilities;
 
@@ -12,7 +13,7 @@ import utilities.Utilities;
  * @author Sophie Krimberg
  *
  */
-public abstract class TrafficLights implements Timer, Utilities{
+public abstract class TrafficLights implements Timer, Utilities,Runnable{
 	private int id;
 	private final int maxDelay=6;
 	private final int minDelay=2;
@@ -226,6 +227,20 @@ public abstract class TrafficLights implements Timer, Utilities{
 	public int getMinDelay() {
 		return minDelay;
 	}
+	@Override
+	public void run() {
+		while (RoadMapPanel.isStartObs()) {
+            try { 
+    			incrementDrivingTime();
+                   Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                   ex.printStackTrace();
+            }
+		
+	}
+	
+	
+}
 }
 
 

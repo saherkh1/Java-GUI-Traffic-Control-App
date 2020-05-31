@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import components.Junction;
 import components.LightedJunction;
 import components.Map;
@@ -15,7 +17,7 @@ import components.TrafficLights;
 import components.Vehicle;
 import utilities.Point;
 
-public class DrawingMap extends Canvas {
+public class DrawingMap extends JPanel /*extends Canvas */{
 
 		int numberOfVehicles=0;
 	 	private ArrayList<Vehicle> vehicles=null;
@@ -23,11 +25,12 @@ public class DrawingMap extends Canvas {
 		int x1, y1, x2, y2, d=10, h=4,delta=10;
 		private boolean vFlag;
 		private boolean rFlag=true;
-		private boolean jFlag=true;
-		int[] xpoints;// = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
-	    int[] ypoints;
+		//private boolean jFlag=true;
+		//int[] xpoints;// = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
+	    //int[] ypoints;
 	    double xm , xn , ym, yn, xm1 , xn1 , ym1, yn1 ;
 	    Color vColor= Color.BLACK;//(0,0,0);
+		Color bg;
 		
 		public void setMap(Map map){
 			rFlag=true;
@@ -38,7 +41,7 @@ public class DrawingMap extends Canvas {
 			this.vColor=c;
 		}
 		public void changeBG(Color bg) {
-			setBackground(bg);
+			this.bg=bg;
 			
 		}
 		
@@ -48,21 +51,23 @@ public class DrawingMap extends Canvas {
 			this.vFlag = true;
 			numberOfVehicles=v.size();
 		}
-		@Override
-		public void paint(Graphics g) { 
+		
+		
+		public void paintComponent(Graphics g) { 
+			super.paintComponent(g);
 			if(map!=null ) {			 
 				if(rFlag) {
 				drawRoads(g);
-				rFlag=false;
 				}
 			 	drawJunctions(g);
 			}
 			if(vFlag) 
-				drawVehicles(g);
-			}
+				drawVehicles(g);	
+		}
 			
 			
-			private void drawRoads(Graphics g) {
+			
+		private void drawRoads(Graphics g) {
 				 ArrayList<Road> roads= map.getRoads();
 				 for (Road r : roads) {
 					 if(r.getEnabled()){
@@ -79,17 +84,10 @@ public class DrawingMap extends Canvas {
 			private void drawVehicles(Graphics g) {
 				delta=10;d=10;h=4;
 				for (Vehicle v : vehicles) {
-				x1=(int) v.getLastRoad().getStartJunction().getX();
-				y1=(int) v.getLastRoad().getStartJunction().getY();
+				x1=(int) v.getCurrentX();
+				y1=(int) v.getCurrentY();
 				x2=(int) v.getLastRoad().getEndJunction().getX();
 				y2=(int) v.getLastRoad().getEndJunction().getY();
-				
-				int timeOnCurrentPart=v.getTimeOnCurrentPart();
-				int speed=v.getVehicleType().getAverageSpeed();
-				int dx=x2-x1,dy=y2-y1,x=x1;
-				x1=x1+((speed/10)*timeOnCurrentPart);
-				y1=y1+((dy/dx)*(x1-x));
-				
 				calcArrow(x1,y1,x2,y2);
 			    int[] xpoints = {(int) xm1, (int) xn1,  (int) xn, (int) xm};
 			    int[] ypoints = {(int) ym1, (int) yn1, (int) yn, (int) ym};
@@ -149,6 +147,9 @@ public class DrawingMap extends Canvas {
 			    this.xn1 = xx;
 			}
 			
-		
+		public void updateDrawing() {
+			repaint();
+			
+		}
 
 }

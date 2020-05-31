@@ -4,6 +4,8 @@
 package components;
 
 
+import GUI.RoadFrame;
+import GUI.RoadMapPanel;
 import utilities.Point;
 import utilities.Timer;
 import utilities.Utilities;
@@ -26,8 +28,36 @@ public class Vehicle implements Utilities, Timer,Runnable {
 	private int timeOnCurrentPart;
 	private Road lastRoad;
 	private String status;
-	private Point currentLocation;
+	private int currentX;
+	private int currentY;
+	private RoadFrame roadFrame;
+	private Thread Vthread;
+	double Vx = 0 ;
+	double Vy = 0 ;
+	double TimeToArrive;
 	
+	int speed;
+	int  dx ,dy;
+	double D ;
+	double sin, cos ;
+	
+	
+	public int getCurrentX() {
+		return currentX;
+	}
+	public void setCurrentX(int currentX) {
+		this.currentX = currentX;
+	}
+	public int getCurrentY() {
+		return currentY;
+	}
+	public void setCurrentY(int currentY) {
+		this.currentY = currentY;
+	}
+
+
+
+
 	/**Random Constructor
 	 * @param currentLocation
 	 */
@@ -40,9 +70,26 @@ public class Vehicle implements Utilities, Timer,Runnable {
 		currentRoute=new Route(currentLocation, this); //creates a new route for the vehicle and checks it in
 		lastRoad=currentLocation;
 		status=null;
+		currentX= (int) lastRoad.getStartJunction().getX();
+		currentY=(int) lastRoad.getStartJunction().getY();
+		
 		
 	}
-	
+	public Vehicle (Road currentLocation,RoadFrame roadframe) {
+
+		id=objectsCount++;
+		vehicleType=currentLocation.getVehicleTypes()[getRandomInt(0,currentLocation.getVehicleTypes().length-1)];
+		System.out.println();
+		successMessage(this.toString());
+		currentRoute=new Route(currentLocation, this); //creates a new route for the vehicle and checks it in
+		lastRoad=currentLocation;
+		status=null;
+		this.roadFrame=roadframe;
+		this.Vthread=new Thread(this);
+		currentX= (int) lastRoad.getStartJunction().getX();
+		currentY=(int) lastRoad.getStartJunction().getY();
+		
+	}
 	
 	
 	
@@ -219,10 +266,47 @@ public class Vehicle implements Utilities, Timer,Runnable {
 		}
 		else {
 			currentRoutePart.stayOnCurrentPart(this);
+			setCurrentY((int) ((int)getCurrentY()+(speed/10)*sin*timeOnCurrentPart));
+			setCurrentX((int) ((int)getCurrentX()+(speed/10)*cos*timeOnCurrentPart));
+			
 			
 		}
 	}
-	
+	public void calcLocation() {
+		double x1 = lastRoad.getStartJunction().getX();
+		double y1 = lastRoad.getStartJunction().getY();
+		double x2 = lastRoad.getEndJunction().getX();
+		double y2 = lastRoad.getEndJunction().getY();
+		speed=getVehicleType().getAverageSpeed();
+		dx = (int) (x2 - x1);
+		dy = (int) (y2 - y1);
+		D = Math.sqrt(dx*dx + dy*dy);
+		sin = dy / D;
+		cos = dx / D;
+		//Vx=(int) ( ((speed/10)*cos*timeOnCurrentPart)); 
+		//Vy= (int) ( ((speed/10)*sin*timeOnCurrentPart));
+		
+		/*
+		double x1 = ((Road) currentRoutePart).getStartJunction().getX();
+		double y1 = ((Road) currentRoutePart).getStartJunction().getY();
+		double x2 = ((Road) currentRoutePart).getEndJunction().getX();
+		double y2 = ((Road) currentRoutePart).getEndJunction().getY();
+		int dx=(int) (x2-x1),dy=(int) (y2-y1);
+		double a = dy/dx ;
+		a = Math.toDegrees(Math.atan(a));
+		if (a < 0)
+		    a = 180 + a;
+
+		Vx = vehicleType.getAverageSpeed() / 10 * Math.cos(Math.toRadians(a));
+		Vy = vehicleType.getAverageSpeed() / 10 * Math.sin(Math.toRadians(a));
+		Vx = Math.abs(Vx);
+		Vy = Math.abs(Vy);
+		if (x2 <= x1)
+		    Vx *= -1;
+		if (y2 <= y1)
+		    Vy *= -1;
+		 TimeToArrive = Math.abs((x2 - x1) / Vx);*/
+	}
 	
 	@Override
 	public String toString() {
@@ -259,9 +343,11 @@ public class Vehicle implements Utilities, Timer,Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
-			move();
+		calcLocation();
+		while (RoadMapPanel.isStartObs()) {
+			//move();
             try { 
+    			incrementDrivingTime();
                    Thread.sleep(100);
             } catch (InterruptedException ex) {
                    ex.printStackTrace();
@@ -271,19 +357,5 @@ public class Vehicle implements Utilities, Timer,Runnable {
 	
 	
 }
-
-
-
-
-	public Point getCurrentLocation() {
-		return currentLocation;
-	}
-
-
-
-
-	public void setCurrentLocation(double x,double y) {
-		this.currentLocation = currentLocation;
-	}
 	
 }

@@ -2,6 +2,8 @@ package components;
 
 import java.util.ArrayList;
 
+import GUI.RoadMapPanel;
+
 /**Represents traffic lights with sequential choice of road that receives green light.
  * @author Sophie Krimberg
  *
@@ -33,6 +35,8 @@ public class SequentialTrafficLights extends TrafficLights {
 	public int getIncrement() {
 		return increment;
 	}
+
 	
+
 	
 }

@@ -23,7 +23,7 @@ public class Driving implements Utilities, Timer{
 	private int drivingTime;
 	private ArrayList<Timer> allTimedElements;
 	
-	private RoadFrame rf;
+	//private RoadFrame rf;
 	
 	/**Constructor
 	 * @param junctionsNum quantity of junctions
@@ -52,12 +52,6 @@ public class Driving implements Utilities, Timer{
 				allTimedElements.add(light);
 			}
 		}
-		rf=new RoadFrame();
-		RoadMapPanel rmp =rf.getRoadMapPanel();
-		rmp.setCurrentMap(map);
-		rmp.setNewDrive(this);
-		rmp.setNumberOfJunctions(junctionsNum);
-		rmp.setNumberOfVehicles(numOfVehicles);
 		TimeUnit.SECONDS.sleep(3);
 		
 	}
@@ -128,7 +122,7 @@ public class Driving implements Utilities, Timer{
 
 		drivingTime=0;
 		for (int i=0; i<turns;i++) {
-			rf.updateFrame();
+			//rf.updateFrame();
 			TimeUnit.SECONDS.sleep(3);
 			incrementDrivingTime();
 		}

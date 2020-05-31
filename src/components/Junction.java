@@ -173,7 +173,7 @@ public class Junction extends utilities.Point implements RouteParts {
 	@Override
 	public void checkIn(Vehicle vehicle) {
 		vehicle.setTimeOnCurrentPart(0);
-		System.out.println("- has arrived to "+ this);
+		System.out.println("-"+vehicle+" has arrived to "+ this);
 		vehicle.setCurrentRoutePart(this);
 		Point P=((Point) this);
 		//vehicle.setCurrentLocation(P);
@@ -183,13 +183,13 @@ public class Junction extends utilities.Point implements RouteParts {
 
 	@Override
 	public void checkOut(Vehicle vehicle) {
-		System.out.println("- has left the "+this+".");
+		System.out.println("-"+vehicle+" has left the "+this+".");
 		vehicle.getLastRoad().removeVehicleFromWaitingVehicles(vehicle);
 	}
 
 	@Override
 	public void stayOnCurrentPart(Vehicle vehicle) {
-		System.out.println("- is waiting at "+this+ vehicle.getStatus() +".");
+		System.out.println("-"+vehicle+" is waiting at "+this+ vehicle.getStatus() +".");
 		
 	}
 	
